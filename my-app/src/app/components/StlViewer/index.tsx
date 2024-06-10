@@ -3,7 +3,9 @@
 import React, { useEffect, useState } from 'react';
 import { StlViewer } from 'react-stl-viewer';
 
-const url = "https://raw.githubusercontent.com/p-medeiros/Chess-Rook-Stl/main/files/Rook.stl";
+const url = "https://raw.githubusercontent.com/p-medeiros/Nema17-Enclosure-Suport-Stl-Run_out_sensor/main/Nema17%20Enclosure%20Suport%20%2B%20Run_out_sensor%20-%206330865/files/Nema17_Enclosure_Suport_%2B_Run_out_sensor.stl";
+
+
 
 const style = {
   top: 0,
@@ -28,6 +30,15 @@ const Stl = () => {
       style={style}
       orbitControls
       shadows
+      floorProps={{ 
+        gridWidth: 200, 
+        gridLength: 200, 
+      }}
+      modelProps={{
+        positionX : 100,
+        positionY : 100,
+
+      }}
       url={url}
     />
   );
