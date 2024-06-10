@@ -1,6 +1,13 @@
 import Image from "next/image";
 import CardByKay from "./components/Cards";
 import React from "react";
+import Stl from "@/app/components/StlViewer";
+
+import dynamic from 'next/dynamic';
+
+const DynamicStl = dynamic(() => import('@/app/components/StlViewer'), { ssr: false });
+
+
 
 export default function Home() {
   return (
@@ -30,8 +37,8 @@ export default function Home() {
         </div>
       </div>
 
-      <div>
-       <CardByKay />
+      <div id="root">
+        <DynamicStl />
       </div>
 
       <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
