@@ -1,0 +1,106 @@
+.mode-switch-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  
+  input[type="checkbox"] {
+    display: none;
+  }
+  
+  label, .toggle {
+    height: 2.8rem;
+    border-radius: 100px;
+  }
+  
+  label {
+    width: 8rem;
+    background-color: rgba(0,0,0,.1);
+    border-radius: 100px;
+    position: relative;
+    margin: 0;
+    cursor: pointer;
+  }
+  
+  .toggle {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    background-color: #fff;
+    box-shadow: 0 2px 15px rgba(0,0,0,.15);
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  .names {
+    font-size: 0.8rem;
+    font-weight: bolder;
+    color: black;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    user-select: none;
+    padding: 0 0.5rem;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .dark {
+    opacity: 0.5;
+  }
+  
+  /* Circle */
+  .circle {
+    position: relative;
+    border-radius: 100%;
+    width: 2rem;
+    height: 2rem;
+    background: linear-gradient(40deg, #FF0080, #FF8C00 70%);
+    margin-left: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .crescent {
+    position: absolute;
+    border-radius: 100%;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: white;
+    transform: scale(0);
+    transform-origin: top right;
+    transition: transform 0.6s cubic-bezier(0.645, 0.045, 0.355, 1);
+  }
+  
+  /* -------- Switch Styles ------------*/
+  input[type="checkbox"]:checked + label .toggle {
+    transform: translateX(100%);
+    background-color: #34323D;
+  }
+  
+  input[type="checkbox"]:checked + label .dark {
+    opacity: 1;
+    color: white;
+  }
+  
+  input[type="checkbox"]:checked + label .light {
+    opacity: 1;
+    color: white;
+  }
+  
+  input[type="checkbox"]:checked ~ .circle {
+    background: linear-gradient(40deg, #8983F7, #A3DAFB 70%);
+  }
+  
+  input[type="checkbox"]:checked ~ .circle .crescent {
+    transform: scale(1);
+    background: #26242E;
+  }
+  
+  .dark-mode {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+  

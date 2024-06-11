@@ -113,44 +113,305 @@ export default CardByKay;
   }
   
 
+// File: \Github\My-Page\my-app\src\app\components\Header\Header.css
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: var(--background-start-rgb);
+    transition: background-color 0.3s ease;
+  }
+  
+  .header-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--foreground-rgb);
+  }
+  
+
+// File: \Github\My-Page\my-app\src\app\components\Header\index.tsx
+"use client"; // This directive is required to mark the component as a Client Component in Next.js
+
+import React from 'react';
+import './Header.css';
+import LightDarkMode from '../LightDarkMode';
+
+const Header = () => {
+  return (
+    <header className="header">
+      <h1 className="header-title">MyApp</h1>
+      <LightDarkMode />
+    </header>
+  );
+};
+
+export default Header;
+
+// File: \Github\My-Page\my-app\src\app\components\LightDarkMode\index.tsx
+"use client"; // This directive is required to mark the component as a Client Component in Next.js
+
+import React, { useState } from 'react';
+import './LightDarkMode.css';
+
+const LightDarkMode = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const handleToggle = () => {
+    setIsDarkMode(!isDarkMode);
+    document.documentElement.classList.toggle('dark-mode', !isDarkMode);
+  };
+
+  return (
+    <div className="mode-switch-container">
+      <input id="switch" type="checkbox" checked={isDarkMode} onChange={handleToggle} />
+      <label htmlFor="switch" className="switch-label">
+        <div className="toggle"></div>
+        <div className="names">
+          <p className="light">Light</p>
+          <p className="dark">Dark</p>
+        </div>
+      </label>
+      <div className="circle">
+        <div className="crescent"></div>
+      </div>
+    </div>
+  );
+};
+
+export default LightDarkMode;
+
+// File: \Github\My-Page\my-app\src\app\components\LightDarkMode\LightDarkMode.css
+.mode-switch-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  
+  input[type="checkbox"] {
+    display: none;
+  }
+  
+  label, .toggle {
+    height: 2.8rem;
+    border-radius: 100px;
+  }
+  
+  label {
+    width: 8rem;
+    background-color: rgba(0,0,0,.1);
+    border-radius: 100px;
+    position: relative;
+    margin: 0;
+    cursor: pointer;
+  }
+  
+  .toggle {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    background-color: #fff;
+    box-shadow: 0 2px 15px rgba(0,0,0,.15);
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  .names {
+    font-size: 0.8rem;
+    font-weight: bolder;
+    color: black;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    user-select: none;
+    padding: 0 0.5rem;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .dark {
+    opacity: 0.5;
+  }
+  
+  /* Circle */
+  .circle {
+    position: relative;
+    border-radius: 100%;
+    width: 2rem;
+    height: 2rem;
+    background: linear-gradient(40deg, #FF0080, #FF8C00 70%);
+    margin-left: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .crescent {
+    position: absolute;
+    border-radius: 100%;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: white;
+    transform: scale(0);
+    transform-origin: top right;
+    transition: transform 0.6s cubic-bezier(0.645, 0.045, 0.355, 1);
+  }
+  
+  /* -------- Switch Styles ------------*/
+  input[type="checkbox"]:checked + label .toggle {
+    transform: translateX(100%);
+    background-color: #34323D;
+  }
+  
+  input[type="checkbox"]:checked + label .dark {
+    opacity: 1;
+    color: white;
+  }
+  
+  input[type="checkbox"]:checked + label .light {
+    opacity: 1;
+    color: white;
+  }
+  
+  input[type="checkbox"]:checked ~ .circle {
+    background: linear-gradient(40deg, #8983F7, #A3DAFB 70%);
+  }
+  
+  input[type="checkbox"]:checked ~ .circle .crescent {
+    transform: scale(1);
+    background: #26242E;
+  }
+  
+  .dark-mode {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+  
+
 // File: \Github\My-Page\my-app\src\app\components\Sidebar\index.tsx
-import { useState } from 'react';
-import { FiHome, FiUser, FiSettings, FiMenu } from 'react-icons/fi';
+// File: \Github\My-Page\my-app\src\app\components\Sidebar\index.tsx
+"use client";
+
+import React, { useState } from 'react';
+import { FiMenu } from 'react-icons/fi';
+import { GiArtificialIntelligence } from "react-icons/gi";
+import { FaCube, FaRobot } from 'react-icons/fa';
+import { GrCpu } from "react-icons/gr";
+import './Sidebar.css'; // Importa os estilos específicos do sidebar
+import Link from 'next/link';
 
 const Sidebar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(true);
 
   return (
-    <div className={`flex ${isOpen ? 'w-64' : 'w-20'} h-screen bg-gray-800 text-white transition-width duration-300`}>
-      <div className="flex flex-col justify-between flex-grow">
-        <div className="flex items-center justify-between p-4 border-b border-gray-700">
-          <h1 className={`text-xl font-bold ${isOpen ? 'block' : 'hidden'}`}>MyApp</h1>
-          <button onClick={() => setIsOpen(!isOpen)}>
-            <FiMenu size={24} />
-          </button>
-        </div>
-        <div className="flex-grow p-4">
-          <nav className="space-y-4">
-            <a href="#" className="flex items-center p-2 rounded hover:bg-gray-700">
-              <FiHome size={24} />
-              <span className={`ml-4 ${isOpen ? 'block' : 'hidden'}`}>Home</span>
-            </a>
-            <a href="#" className="flex items-center p-2 rounded hover:bg-gray-700">
-              <FiUser size={24} />
-              <span className={`ml-4 ${isOpen ? 'block' : 'hidden'}`}>Profile</span>
-            </a>
-            <a href="#" className="flex items-center p-2 rounded hover:bg-gray-700">
-              <FiSettings size={24} />
-              <span className={`ml-4 ${isOpen ? 'block' : 'hidden'}`}>Settings</span>
-            </a>
-          </nav>
-        </div>
+    <div className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
+      <div className="sidebar-header">
+        <h1 className={`sidebar-title ${isOpen ? 'visible' : 'hidden'}`}>MyApp</h1>
+        <button className="menu-button" onClick={() => setIsOpen(!isOpen)}>
+          <FiMenu size={24} />
+        </button>
+      </div>
+      <div className="sidebar-content">
+        <nav className="nav-links">
+          <Link href="/views/ai" className="nav-link">
+            <GiArtificialIntelligence size={24} />
+            <span className={`nav-text ${isOpen ? 'visible' : 'hidden'}`}>AI</span>
+          </Link>
+          <Link href="/views/bots" className="nav-link">
+            <FaRobot size={24} />
+            <span className={`nav-text ${isOpen ? 'visible' : 'hidden'}`}>Bots</span>
+          </Link>
+          <Link href="/views/fpga" className="nav-link">
+            <GrCpu size={24} />
+            <span className={`nav-text ${isOpen ? 'visible' : 'hidden'}`}>FPGA</span>
+          </Link>
+          <Link href="/views/stlModels" className="nav-link">
+            <FaCube size={24} />
+            <span className={`nav-text ${isOpen ? 'visible' : 'hidden'}`}>3D Models</span>
+          </Link>
+        </nav>
       </div>
     </div>
   );
 };
 
 export default Sidebar;
+
+// File: \Github\My-Page\my-app\src\app\components\Sidebar\Sidebar.css
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #2d2d2d;
+  color: #ffffff;
+  transition: width 0.3s ease;
+}
+
+.sidebar.open {
+  width: 16rem;
+}
+
+.sidebar.closed {
+  width: 5rem;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid #444444;
+}
+
+.sidebar-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.menu-button {
+  background: none;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.sidebar-content {
+  flex-grow: 1;
+  padding: 1rem;
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s ease;
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.nav-link:hover {
+  background-color: #444444;
+}
+
+.nav-text {
+  margin-left: 1rem;
+}
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: inline;
+}
 
 // File: \Github\My-Page\my-app\src\app\components\StlViewer\index.tsx
 "use client";
@@ -159,8 +420,6 @@ import React, { useEffect, useState } from 'react';
 import { StlViewer } from 'react-stl-viewer';
 
 const url = "https://raw.githubusercontent.com/p-medeiros/Nema17-Enclosure-Suport-Stl-Run_out_sensor/main/Nema17%20Enclosure%20Suport%20%2B%20Run_out_sensor%20-%206330865/files/Nema17_Enclosure_Suport_%2B_Run_out_sensor.stl";
-
-
 
 const style = {
   top: 0,
@@ -316,44 +575,305 @@ export default CardByKay;
   }
   
 
+// File: \Github\My-Page\my-app\src\app\components\Header\Header.css
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: var(--background-start-rgb);
+    transition: background-color 0.3s ease;
+  }
+  
+  .header-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--foreground-rgb);
+  }
+  
+
+// File: \Github\My-Page\my-app\src\app\components\Header\index.tsx
+"use client"; // This directive is required to mark the component as a Client Component in Next.js
+
+import React from 'react';
+import './Header.css';
+import LightDarkMode from '../LightDarkMode';
+
+const Header = () => {
+  return (
+    <header className="header">
+      <h1 className="header-title">MyApp</h1>
+      <LightDarkMode />
+    </header>
+  );
+};
+
+export default Header;
+
+// File: \Github\My-Page\my-app\src\app\components\LightDarkMode\index.tsx
+"use client"; // This directive is required to mark the component as a Client Component in Next.js
+
+import React, { useState } from 'react';
+import './LightDarkMode.css';
+
+const LightDarkMode = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const handleToggle = () => {
+    setIsDarkMode(!isDarkMode);
+    document.documentElement.classList.toggle('dark-mode', !isDarkMode);
+  };
+
+  return (
+    <div className="mode-switch-container">
+      <input id="switch" type="checkbox" checked={isDarkMode} onChange={handleToggle} />
+      <label htmlFor="switch" className="switch-label">
+        <div className="toggle"></div>
+        <div className="names">
+          <p className="light">Light</p>
+          <p className="dark">Dark</p>
+        </div>
+      </label>
+      <div className="circle">
+        <div className="crescent"></div>
+      </div>
+    </div>
+  );
+};
+
+export default LightDarkMode;
+
+// File: \Github\My-Page\my-app\src\app\components\LightDarkMode\LightDarkMode.css
+.mode-switch-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  
+  input[type="checkbox"] {
+    display: none;
+  }
+  
+  label, .toggle {
+    height: 2.8rem;
+    border-radius: 100px;
+  }
+  
+  label {
+    width: 8rem;
+    background-color: rgba(0,0,0,.1);
+    border-radius: 100px;
+    position: relative;
+    margin: 0;
+    cursor: pointer;
+  }
+  
+  .toggle {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    background-color: #fff;
+    box-shadow: 0 2px 15px rgba(0,0,0,.15);
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  .names {
+    font-size: 0.8rem;
+    font-weight: bolder;
+    color: black;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    user-select: none;
+    padding: 0 0.5rem;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .dark {
+    opacity: 0.5;
+  }
+  
+  /* Circle */
+  .circle {
+    position: relative;
+    border-radius: 100%;
+    width: 2rem;
+    height: 2rem;
+    background: linear-gradient(40deg, #FF0080, #FF8C00 70%);
+    margin-left: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .crescent {
+    position: absolute;
+    border-radius: 100%;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: white;
+    transform: scale(0);
+    transform-origin: top right;
+    transition: transform 0.6s cubic-bezier(0.645, 0.045, 0.355, 1);
+  }
+  
+  /* -------- Switch Styles ------------*/
+  input[type="checkbox"]:checked + label .toggle {
+    transform: translateX(100%);
+    background-color: #34323D;
+  }
+  
+  input[type="checkbox"]:checked + label .dark {
+    opacity: 1;
+    color: white;
+  }
+  
+  input[type="checkbox"]:checked + label .light {
+    opacity: 1;
+    color: white;
+  }
+  
+  input[type="checkbox"]:checked ~ .circle {
+    background: linear-gradient(40deg, #8983F7, #A3DAFB 70%);
+  }
+  
+  input[type="checkbox"]:checked ~ .circle .crescent {
+    transform: scale(1);
+    background: #26242E;
+  }
+  
+  .dark-mode {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+  
+
 // File: \Github\My-Page\my-app\src\app\components\Sidebar\index.tsx
-import { useState } from 'react';
-import { FiHome, FiUser, FiSettings, FiMenu } from 'react-icons/fi';
+// File: \Github\My-Page\my-app\src\app\components\Sidebar\index.tsx
+"use client";
+
+import React, { useState } from 'react';
+import { FiMenu } from 'react-icons/fi';
+import { GiArtificialIntelligence } from "react-icons/gi";
+import { FaCube, FaRobot } from 'react-icons/fa';
+import { GrCpu } from "react-icons/gr";
+import './Sidebar.css'; // Importa os estilos específicos do sidebar
+import Link from 'next/link';
 
 const Sidebar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(true);
 
   return (
-    <div className={`flex ${isOpen ? 'w-64' : 'w-20'} h-screen bg-gray-800 text-white transition-width duration-300`}>
-      <div className="flex flex-col justify-between flex-grow">
-        <div className="flex items-center justify-between p-4 border-b border-gray-700">
-          <h1 className={`text-xl font-bold ${isOpen ? 'block' : 'hidden'}`}>MyApp</h1>
-          <button onClick={() => setIsOpen(!isOpen)}>
-            <FiMenu size={24} />
-          </button>
-        </div>
-        <div className="flex-grow p-4">
-          <nav className="space-y-4">
-            <a href="#" className="flex items-center p-2 rounded hover:bg-gray-700">
-              <FiHome size={24} />
-              <span className={`ml-4 ${isOpen ? 'block' : 'hidden'}`}>Home</span>
-            </a>
-            <a href="#" className="flex items-center p-2 rounded hover:bg-gray-700">
-              <FiUser size={24} />
-              <span className={`ml-4 ${isOpen ? 'block' : 'hidden'}`}>Profile</span>
-            </a>
-            <a href="#" className="flex items-center p-2 rounded hover:bg-gray-700">
-              <FiSettings size={24} />
-              <span className={`ml-4 ${isOpen ? 'block' : 'hidden'}`}>Settings</span>
-            </a>
-          </nav>
-        </div>
+    <div className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
+      <div className="sidebar-header">
+        <h1 className={`sidebar-title ${isOpen ? 'visible' : 'hidden'}`}>MyApp</h1>
+        <button className="menu-button" onClick={() => setIsOpen(!isOpen)}>
+          <FiMenu size={24} />
+        </button>
+      </div>
+      <div className="sidebar-content">
+        <nav className="nav-links">
+          <Link href="/views/ai" className="nav-link">
+            <GiArtificialIntelligence size={24} />
+            <span className={`nav-text ${isOpen ? 'visible' : 'hidden'}`}>AI</span>
+          </Link>
+          <Link href="/views/bots" className="nav-link">
+            <FaRobot size={24} />
+            <span className={`nav-text ${isOpen ? 'visible' : 'hidden'}`}>Bots</span>
+          </Link>
+          <Link href="/views/fpga" className="nav-link">
+            <GrCpu size={24} />
+            <span className={`nav-text ${isOpen ? 'visible' : 'hidden'}`}>FPGA</span>
+          </Link>
+          <Link href="/views/stlModels" className="nav-link">
+            <FaCube size={24} />
+            <span className={`nav-text ${isOpen ? 'visible' : 'hidden'}`}>3D Models</span>
+          </Link>
+        </nav>
       </div>
     </div>
   );
 };
 
 export default Sidebar;
+
+// File: \Github\My-Page\my-app\src\app\components\Sidebar\Sidebar.css
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #2d2d2d;
+  color: #ffffff;
+  transition: width 0.3s ease;
+}
+
+.sidebar.open {
+  width: 16rem;
+}
+
+.sidebar.closed {
+  width: 5rem;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid #444444;
+}
+
+.sidebar-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.menu-button {
+  background: none;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.sidebar-content {
+  flex-grow: 1;
+  padding: 1rem;
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s ease;
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.nav-link:hover {
+  background-color: #444444;
+}
+
+.nav-text {
+  margin-left: 1rem;
+}
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: inline;
+}
 
 // File: \Github\My-Page\my-app\src\app\components\StlViewer\index.tsx
 "use client";
@@ -362,8 +882,6 @@ import React, { useEffect, useState } from 'react';
 import { StlViewer } from 'react-stl-viewer';
 
 const url = "https://raw.githubusercontent.com/p-medeiros/Nema17-Enclosure-Suport-Stl-Run_out_sensor/main/Nema17%20Enclosure%20Suport%20%2B%20Run_out_sensor%20-%206330865/files/Nema17_Enclosure_Suport_%2B_Run_out_sensor.stl";
-
-
 
 const style = {
   top: 0,
@@ -404,6 +922,134 @@ const Stl = () => {
 
 export default Stl;
 
+// File: \Github\My-Page\my-app\src\app\views\ai\page.tsx
+import React from 'react';
+
+const AiPage = () => {
+  return (
+    <div>
+      <h1>AI Page</h1>
+      <p>Welcome to the AI page!</p>
+    </div>
+  );
+};
+
+export default AiPage;
+
+// File: \Github\My-Page\my-app\src\app\views\bots\page.tsx
+import React from 'react';
+
+const BotsPage = () => {
+  return (
+    <div>
+      <h1>Bots Page</h1>
+      <p>Welcome to the Bots page!</p>
+    </div>
+  );
+};
+
+export default BotsPage;
+
+// File: \Github\My-Page\my-app\src\app\views\fpga\page.tsx
+import React from 'react';
+
+const FpgaPage = () => {
+  return (
+    <div>
+      <h1>FPGA Page</h1>
+      <p>Welcome to the FPGA page!</p>
+    </div>
+  );
+};
+
+export default FpgaPage;
+
+// File: \Github\My-Page\my-app\src\app\views\stlModels\page.tsx
+"use client";
+
+import React from 'react';
+import dynamic from 'next/dynamic';
+
+const DynamicStl = dynamic(() => import('@/app/components/StlViewer'), { ssr: false });
+
+const ModelsPage = () => {
+  return (
+    <div>
+      <h1>3D Models Page</h1>
+      <p>Welcome to the 3D Models page!</p>
+      <div id="root">
+          <DynamicStl />
+        </div>
+    </div>
+  );
+};
+
+export default ModelsPage;
+
+// File: \Github\My-Page\my-app\src\app\views\ai\page.tsx
+import React from 'react';
+
+const AiPage = () => {
+  return (
+    <div>
+      <h1>AI Page</h1>
+      <p>Welcome to the AI page!</p>
+    </div>
+  );
+};
+
+export default AiPage;
+
+// File: \Github\My-Page\my-app\src\app\views\bots\page.tsx
+import React from 'react';
+
+const BotsPage = () => {
+  return (
+    <div>
+      <h1>Bots Page</h1>
+      <p>Welcome to the Bots page!</p>
+    </div>
+  );
+};
+
+export default BotsPage;
+
+// File: \Github\My-Page\my-app\src\app\views\fpga\page.tsx
+import React from 'react';
+
+const FpgaPage = () => {
+  return (
+    <div>
+      <h1>FPGA Page</h1>
+      <p>Welcome to the FPGA page!</p>
+    </div>
+  );
+};
+
+export default FpgaPage;
+
+// File: \Github\My-Page\my-app\src\app\views\stlModels\page.tsx
+"use client";
+
+import React from 'react';
+import dynamic from 'next/dynamic';
+
+const DynamicStl = dynamic(() => import('@/app/components/StlViewer'), { ssr: false });
+
+const ModelsPage = () => {
+  return (
+    <div>
+      <h1>3D Models Page</h1>
+      <p>Welcome to the 3D Models page!</p>
+      <div id="root">
+          <DynamicStl />
+        </div>
+    </div>
+  );
+};
+
+export default ModelsPage;
+
 // File: \Github\My-Page\my-app\src\app\globals.css
 @tailwind base;
 @tailwind components;
@@ -415,14 +1061,6 @@ export default Stl;
   --background-end-rgb: 255, 255, 255;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
@@ -431,6 +1069,13 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dark-mode body {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 0, 0, 0;
+  --background-end-rgb: 0, 0, 0;
 }
 
 @layer utilities {
@@ -443,6 +1088,8 @@ body {
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Sidebar from './components/Sidebar';
+import Header from './components/Header';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -458,131 +1105,107 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Header />
+        <div className="flex">
+          <Sidebar />
+          <main className="flex min-h-screen flex-col items-center justify-between p-24">
+            {children}
+          </main>
+        </div>
+      </body>
     </html>
   );
 }
 
 // File: \Github\My-Page\my-app\src\app\page.tsx
-import Image from "next/image";
-import CardByKay from "./components/Cards";
-import React from "react";
-import Stl from "@/app/components/StlViewer";
+"use client";
 
+import React from 'react';
 import Sidebar from '@/app/components/Sidebar';
-
-import dynamic from 'next/dynamic';
-
-const DynamicStl = dynamic(() => import('@/app/components/StlViewer'), { ssr: false });
-
 
 
 export default function Home() {
   return (
     <div className="flex">
-      <Sidebar />
       <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
+        <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
+          <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
+            Get started by editing&nbsp;
+            <code className="font-mono font-bold">src/app/page.tsx</code>
+          </p>
+        </div>
+        <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
           <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
+            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
+            className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
             target="_blank"
             rel="noopener noreferrer"
           >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
+            <h2 className="mb-3 text-2xl font-semibold">
+              Docs{" "}
+              <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
+                -&gt;
+              </span>
+            </h2>
+            <p className="m-0 max-w-[30ch] text-sm opacity-50">
+              Find in-depth information about Next.js features and API.
+            </p>
+          </a>
+
+          <a
+            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <h2 className="mb-3 text-2xl font-semibold">
+              Learn{" "}
+              <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
+                -&gt;
+              </span>
+            </h2>
+            <p className="m-0 max-w-[30ch] text-sm opacity-50">
+              Learn about Next.js in an interactive course with&nbsp;quizzes!
+            </p>
+          </a>
+
+          <a
+            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
+            className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <h2 className="mb-3 text-2xl font-semibold">
+              Templates{" "}
+              <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
+                -&gt;
+              </span>
+            </h2>
+            <p className="m-0 max-w-[30ch] text-sm opacity-50">
+              Explore starter templates for Next.js.
+            </p>
+          </a>
+
+          <a
+            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
+            className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <h2 className="mb-3 text-2xl font-semibold">
+              Deploy{" "}
+              <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
+                -&gt;
+              </span>
+            </h2>
+            <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
+              Instantly deploy your Next.js site to a shareable URL with Vercel.
+            </p>
           </a>
         </div>
-      </div>
-
-      <div id="root">
-        <DynamicStl />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+      </main>
     </div>
-    
   );
 }
 
@@ -701,44 +1324,305 @@ export default CardByKay;
   }
   
 
+// File: \Github\My-Page\my-app\src\app\components\Header\Header.css
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: var(--background-start-rgb);
+    transition: background-color 0.3s ease;
+  }
+  
+  .header-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--foreground-rgb);
+  }
+  
+
+// File: \Github\My-Page\my-app\src\app\components\Header\index.tsx
+"use client"; // This directive is required to mark the component as a Client Component in Next.js
+
+import React from 'react';
+import './Header.css';
+import LightDarkMode from '../LightDarkMode';
+
+const Header = () => {
+  return (
+    <header className="header">
+      <h1 className="header-title">MyApp</h1>
+      <LightDarkMode />
+    </header>
+  );
+};
+
+export default Header;
+
+// File: \Github\My-Page\my-app\src\app\components\LightDarkMode\index.tsx
+"use client"; // This directive is required to mark the component as a Client Component in Next.js
+
+import React, { useState } from 'react';
+import './LightDarkMode.css';
+
+const LightDarkMode = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const handleToggle = () => {
+    setIsDarkMode(!isDarkMode);
+    document.documentElement.classList.toggle('dark-mode', !isDarkMode);
+  };
+
+  return (
+    <div className="mode-switch-container">
+      <input id="switch" type="checkbox" checked={isDarkMode} onChange={handleToggle} />
+      <label htmlFor="switch" className="switch-label">
+        <div className="toggle"></div>
+        <div className="names">
+          <p className="light">Light</p>
+          <p className="dark">Dark</p>
+        </div>
+      </label>
+      <div className="circle">
+        <div className="crescent"></div>
+      </div>
+    </div>
+  );
+};
+
+export default LightDarkMode;
+
+// File: \Github\My-Page\my-app\src\app\components\LightDarkMode\LightDarkMode.css
+.mode-switch-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  
+  input[type="checkbox"] {
+    display: none;
+  }
+  
+  label, .toggle {
+    height: 2.8rem;
+    border-radius: 100px;
+  }
+  
+  label {
+    width: 8rem;
+    background-color: rgba(0,0,0,.1);
+    border-radius: 100px;
+    position: relative;
+    margin: 0;
+    cursor: pointer;
+  }
+  
+  .toggle {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    background-color: #fff;
+    box-shadow: 0 2px 15px rgba(0,0,0,.15);
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  .names {
+    font-size: 0.8rem;
+    font-weight: bolder;
+    color: black;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    user-select: none;
+    padding: 0 0.5rem;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .dark {
+    opacity: 0.5;
+  }
+  
+  /* Circle */
+  .circle {
+    position: relative;
+    border-radius: 100%;
+    width: 2rem;
+    height: 2rem;
+    background: linear-gradient(40deg, #FF0080, #FF8C00 70%);
+    margin-left: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .crescent {
+    position: absolute;
+    border-radius: 100%;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: white;
+    transform: scale(0);
+    transform-origin: top right;
+    transition: transform 0.6s cubic-bezier(0.645, 0.045, 0.355, 1);
+  }
+  
+  /* -------- Switch Styles ------------*/
+  input[type="checkbox"]:checked + label .toggle {
+    transform: translateX(100%);
+    background-color: #34323D;
+  }
+  
+  input[type="checkbox"]:checked + label .dark {
+    opacity: 1;
+    color: white;
+  }
+  
+  input[type="checkbox"]:checked + label .light {
+    opacity: 1;
+    color: white;
+  }
+  
+  input[type="checkbox"]:checked ~ .circle {
+    background: linear-gradient(40deg, #8983F7, #A3DAFB 70%);
+  }
+  
+  input[type="checkbox"]:checked ~ .circle .crescent {
+    transform: scale(1);
+    background: #26242E;
+  }
+  
+  .dark-mode {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+  
+
 // File: \Github\My-Page\my-app\src\app\components\Sidebar\index.tsx
-import { useState } from 'react';
-import { FiHome, FiUser, FiSettings, FiMenu } from 'react-icons/fi';
+// File: \Github\My-Page\my-app\src\app\components\Sidebar\index.tsx
+"use client";
+
+import React, { useState } from 'react';
+import { FiMenu } from 'react-icons/fi';
+import { GiArtificialIntelligence } from "react-icons/gi";
+import { FaCube, FaRobot } from 'react-icons/fa';
+import { GrCpu } from "react-icons/gr";
+import './Sidebar.css'; // Importa os estilos específicos do sidebar
+import Link from 'next/link';
 
 const Sidebar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(true);
 
   return (
-    <div className={`flex ${isOpen ? 'w-64' : 'w-20'} h-screen bg-gray-800 text-white transition-width duration-300`}>
-      <div className="flex flex-col justify-between flex-grow">
-        <div className="flex items-center justify-between p-4 border-b border-gray-700">
-          <h1 className={`text-xl font-bold ${isOpen ? 'block' : 'hidden'}`}>MyApp</h1>
-          <button onClick={() => setIsOpen(!isOpen)}>
-            <FiMenu size={24} />
-          </button>
-        </div>
-        <div className="flex-grow p-4">
-          <nav className="space-y-4">
-            <a href="#" className="flex items-center p-2 rounded hover:bg-gray-700">
-              <FiHome size={24} />
-              <span className={`ml-4 ${isOpen ? 'block' : 'hidden'}`}>Home</span>
-            </a>
-            <a href="#" className="flex items-center p-2 rounded hover:bg-gray-700">
-              <FiUser size={24} />
-              <span className={`ml-4 ${isOpen ? 'block' : 'hidden'}`}>Profile</span>
-            </a>
-            <a href="#" className="flex items-center p-2 rounded hover:bg-gray-700">
-              <FiSettings size={24} />
-              <span className={`ml-4 ${isOpen ? 'block' : 'hidden'}`}>Settings</span>
-            </a>
-          </nav>
-        </div>
+    <div className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
+      <div className="sidebar-header">
+        <h1 className={`sidebar-title ${isOpen ? 'visible' : 'hidden'}`}>MyApp</h1>
+        <button className="menu-button" onClick={() => setIsOpen(!isOpen)}>
+          <FiMenu size={24} />
+        </button>
+      </div>
+      <div className="sidebar-content">
+        <nav className="nav-links">
+          <Link href="/views/ai" className="nav-link">
+            <GiArtificialIntelligence size={24} />
+            <span className={`nav-text ${isOpen ? 'visible' : 'hidden'}`}>AI</span>
+          </Link>
+          <Link href="/views/bots" className="nav-link">
+            <FaRobot size={24} />
+            <span className={`nav-text ${isOpen ? 'visible' : 'hidden'}`}>Bots</span>
+          </Link>
+          <Link href="/views/fpga" className="nav-link">
+            <GrCpu size={24} />
+            <span className={`nav-text ${isOpen ? 'visible' : 'hidden'}`}>FPGA</span>
+          </Link>
+          <Link href="/views/stlModels" className="nav-link">
+            <FaCube size={24} />
+            <span className={`nav-text ${isOpen ? 'visible' : 'hidden'}`}>3D Models</span>
+          </Link>
+        </nav>
       </div>
     </div>
   );
 };
 
 export default Sidebar;
+
+// File: \Github\My-Page\my-app\src\app\components\Sidebar\Sidebar.css
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #2d2d2d;
+  color: #ffffff;
+  transition: width 0.3s ease;
+}
+
+.sidebar.open {
+  width: 16rem;
+}
+
+.sidebar.closed {
+  width: 5rem;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid #444444;
+}
+
+.sidebar-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.menu-button {
+  background: none;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.sidebar-content {
+  flex-grow: 1;
+  padding: 1rem;
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s ease;
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.nav-link:hover {
+  background-color: #444444;
+}
+
+.nav-text {
+  margin-left: 1rem;
+}
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: inline;
+}
 
 // File: \Github\My-Page\my-app\src\app\components\StlViewer\index.tsx
 "use client";
@@ -747,8 +1631,6 @@ import React, { useEffect, useState } from 'react';
 import { StlViewer } from 'react-stl-viewer';
 
 const url = "https://raw.githubusercontent.com/p-medeiros/Nema17-Enclosure-Suport-Stl-Run_out_sensor/main/Nema17%20Enclosure%20Suport%20%2B%20Run_out_sensor%20-%206330865/files/Nema17_Enclosure_Suport_%2B_Run_out_sensor.stl";
-
-
 
 const style = {
   top: 0,
@@ -904,44 +1786,305 @@ export default CardByKay;
   }
   
 
+// File: \Github\My-Page\my-app\src\app\components\Header\Header.css
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: var(--background-start-rgb);
+    transition: background-color 0.3s ease;
+  }
+  
+  .header-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--foreground-rgb);
+  }
+  
+
+// File: \Github\My-Page\my-app\src\app\components\Header\index.tsx
+"use client"; // This directive is required to mark the component as a Client Component in Next.js
+
+import React from 'react';
+import './Header.css';
+import LightDarkMode from '../LightDarkMode';
+
+const Header = () => {
+  return (
+    <header className="header">
+      <h1 className="header-title">MyApp</h1>
+      <LightDarkMode />
+    </header>
+  );
+};
+
+export default Header;
+
+// File: \Github\My-Page\my-app\src\app\components\LightDarkMode\index.tsx
+"use client"; // This directive is required to mark the component as a Client Component in Next.js
+
+import React, { useState } from 'react';
+import './LightDarkMode.css';
+
+const LightDarkMode = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const handleToggle = () => {
+    setIsDarkMode(!isDarkMode);
+    document.documentElement.classList.toggle('dark-mode', !isDarkMode);
+  };
+
+  return (
+    <div className="mode-switch-container">
+      <input id="switch" type="checkbox" checked={isDarkMode} onChange={handleToggle} />
+      <label htmlFor="switch" className="switch-label">
+        <div className="toggle"></div>
+        <div className="names">
+          <p className="light">Light</p>
+          <p className="dark">Dark</p>
+        </div>
+      </label>
+      <div className="circle">
+        <div className="crescent"></div>
+      </div>
+    </div>
+  );
+};
+
+export default LightDarkMode;
+
+// File: \Github\My-Page\my-app\src\app\components\LightDarkMode\LightDarkMode.css
+.mode-switch-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  
+  input[type="checkbox"] {
+    display: none;
+  }
+  
+  label, .toggle {
+    height: 2.8rem;
+    border-radius: 100px;
+  }
+  
+  label {
+    width: 8rem;
+    background-color: rgba(0,0,0,.1);
+    border-radius: 100px;
+    position: relative;
+    margin: 0;
+    cursor: pointer;
+  }
+  
+  .toggle {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    background-color: #fff;
+    box-shadow: 0 2px 15px rgba(0,0,0,.15);
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  .names {
+    font-size: 0.8rem;
+    font-weight: bolder;
+    color: black;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    user-select: none;
+    padding: 0 0.5rem;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .dark {
+    opacity: 0.5;
+  }
+  
+  /* Circle */
+  .circle {
+    position: relative;
+    border-radius: 100%;
+    width: 2rem;
+    height: 2rem;
+    background: linear-gradient(40deg, #FF0080, #FF8C00 70%);
+    margin-left: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .crescent {
+    position: absolute;
+    border-radius: 100%;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: white;
+    transform: scale(0);
+    transform-origin: top right;
+    transition: transform 0.6s cubic-bezier(0.645, 0.045, 0.355, 1);
+  }
+  
+  /* -------- Switch Styles ------------*/
+  input[type="checkbox"]:checked + label .toggle {
+    transform: translateX(100%);
+    background-color: #34323D;
+  }
+  
+  input[type="checkbox"]:checked + label .dark {
+    opacity: 1;
+    color: white;
+  }
+  
+  input[type="checkbox"]:checked + label .light {
+    opacity: 1;
+    color: white;
+  }
+  
+  input[type="checkbox"]:checked ~ .circle {
+    background: linear-gradient(40deg, #8983F7, #A3DAFB 70%);
+  }
+  
+  input[type="checkbox"]:checked ~ .circle .crescent {
+    transform: scale(1);
+    background: #26242E;
+  }
+  
+  .dark-mode {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+  
+
 // File: \Github\My-Page\my-app\src\app\components\Sidebar\index.tsx
-import { useState } from 'react';
-import { FiHome, FiUser, FiSettings, FiMenu } from 'react-icons/fi';
+// File: \Github\My-Page\my-app\src\app\components\Sidebar\index.tsx
+"use client";
+
+import React, { useState } from 'react';
+import { FiMenu } from 'react-icons/fi';
+import { GiArtificialIntelligence } from "react-icons/gi";
+import { FaCube, FaRobot } from 'react-icons/fa';
+import { GrCpu } from "react-icons/gr";
+import './Sidebar.css'; // Importa os estilos específicos do sidebar
+import Link from 'next/link';
 
 const Sidebar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(true);
 
   return (
-    <div className={`flex ${isOpen ? 'w-64' : 'w-20'} h-screen bg-gray-800 text-white transition-width duration-300`}>
-      <div className="flex flex-col justify-between flex-grow">
-        <div className="flex items-center justify-between p-4 border-b border-gray-700">
-          <h1 className={`text-xl font-bold ${isOpen ? 'block' : 'hidden'}`}>MyApp</h1>
-          <button onClick={() => setIsOpen(!isOpen)}>
-            <FiMenu size={24} />
-          </button>
-        </div>
-        <div className="flex-grow p-4">
-          <nav className="space-y-4">
-            <a href="#" className="flex items-center p-2 rounded hover:bg-gray-700">
-              <FiHome size={24} />
-              <span className={`ml-4 ${isOpen ? 'block' : 'hidden'}`}>Home</span>
-            </a>
-            <a href="#" className="flex items-center p-2 rounded hover:bg-gray-700">
-              <FiUser size={24} />
-              <span className={`ml-4 ${isOpen ? 'block' : 'hidden'}`}>Profile</span>
-            </a>
-            <a href="#" className="flex items-center p-2 rounded hover:bg-gray-700">
-              <FiSettings size={24} />
-              <span className={`ml-4 ${isOpen ? 'block' : 'hidden'}`}>Settings</span>
-            </a>
-          </nav>
-        </div>
+    <div className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
+      <div className="sidebar-header">
+        <h1 className={`sidebar-title ${isOpen ? 'visible' : 'hidden'}`}>MyApp</h1>
+        <button className="menu-button" onClick={() => setIsOpen(!isOpen)}>
+          <FiMenu size={24} />
+        </button>
+      </div>
+      <div className="sidebar-content">
+        <nav className="nav-links">
+          <Link href="/views/ai" className="nav-link">
+            <GiArtificialIntelligence size={24} />
+            <span className={`nav-text ${isOpen ? 'visible' : 'hidden'}`}>AI</span>
+          </Link>
+          <Link href="/views/bots" className="nav-link">
+            <FaRobot size={24} />
+            <span className={`nav-text ${isOpen ? 'visible' : 'hidden'}`}>Bots</span>
+          </Link>
+          <Link href="/views/fpga" className="nav-link">
+            <GrCpu size={24} />
+            <span className={`nav-text ${isOpen ? 'visible' : 'hidden'}`}>FPGA</span>
+          </Link>
+          <Link href="/views/stlModels" className="nav-link">
+            <FaCube size={24} />
+            <span className={`nav-text ${isOpen ? 'visible' : 'hidden'}`}>3D Models</span>
+          </Link>
+        </nav>
       </div>
     </div>
   );
 };
 
 export default Sidebar;
+
+// File: \Github\My-Page\my-app\src\app\components\Sidebar\Sidebar.css
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #2d2d2d;
+  color: #ffffff;
+  transition: width 0.3s ease;
+}
+
+.sidebar.open {
+  width: 16rem;
+}
+
+.sidebar.closed {
+  width: 5rem;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid #444444;
+}
+
+.sidebar-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.menu-button {
+  background: none;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.sidebar-content {
+  flex-grow: 1;
+  padding: 1rem;
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s ease;
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.nav-link:hover {
+  background-color: #444444;
+}
+
+.nav-text {
+  margin-left: 1rem;
+}
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: inline;
+}
 
 // File: \Github\My-Page\my-app\src\app\components\StlViewer\index.tsx
 "use client";
@@ -950,8 +2093,6 @@ import React, { useEffect, useState } from 'react';
 import { StlViewer } from 'react-stl-viewer';
 
 const url = "https://raw.githubusercontent.com/p-medeiros/Nema17-Enclosure-Suport-Stl-Run_out_sensor/main/Nema17%20Enclosure%20Suport%20%2B%20Run_out_sensor%20-%206330865/files/Nema17_Enclosure_Suport_%2B_Run_out_sensor.stl";
-
-
 
 const style = {
   top: 0,
@@ -991,4 +2132,135 @@ const Stl = () => {
 };
 
 export default Stl;
+
+// File: \Github\My-Page\my-app\src\app\views\ai\page.tsx
+import React from 'react';
+
+const AiPage = () => {
+  return (
+    <div>
+      <h1>AI Page</h1>
+      <p>Welcome to the AI page!</p>
+    </div>
+  );
+};
+
+export default AiPage;
+
+// File: \Github\My-Page\my-app\src\app\views\bots\page.tsx
+import React from 'react';
+
+const BotsPage = () => {
+  return (
+    <div>
+      <h1>Bots Page</h1>
+      <p>Welcome to the Bots page!</p>
+    </div>
+  );
+};
+
+export default BotsPage;
+
+// File: \Github\My-Page\my-app\src\app\views\fpga\page.tsx
+import React from 'react';
+
+const FpgaPage = () => {
+  return (
+    <div>
+      <h1>FPGA Page</h1>
+      <p>Welcome to the FPGA page!</p>
+    </div>
+  );
+};
+
+export default FpgaPage;
+
+// File: \Github\My-Page\my-app\src\app\views\stlModels\page.tsx
+"use client";
+
+import React from 'react';
+import dynamic from 'next/dynamic';
+
+const DynamicStl = dynamic(() => import('@/app/components/StlViewer'), { ssr: false });
+
+const ModelsPage = () => {
+  return (
+    <div>
+      <h1>3D Models Page</h1>
+      <p>Welcome to the 3D Models page!</p>
+      <div id="root">
+          <DynamicStl />
+        </div>
+    </div>
+  );
+};
+
+export default ModelsPage;
+
+// File: \Github\My-Page\my-app\src\app\views\ai\page.tsx
+import React from 'react';
+
+const AiPage = () => {
+  return (
+    <div>
+      <h1>AI Page</h1>
+      <p>Welcome to the AI page!</p>
+    </div>
+  );
+};
+
+export default AiPage;
+
+// File: \Github\My-Page\my-app\src\app\views\bots\page.tsx
+import React from 'react';
+
+const BotsPage = () => {
+  return (
+    <div>
+      <h1>Bots Page</h1>
+      <p>Welcome to the Bots page!</p>
+    </div>
+  );
+};
+
+export default BotsPage;
+
+// File: \Github\My-Page\my-app\src\app\views\fpga\page.tsx
+import React from 'react';
+
+const FpgaPage = () => {
+  return (
+    <div>
+      <h1>FPGA Page</h1>
+      <p>Welcome to the FPGA page!</p>
+    </div>
+  );
+};
+
+export default FpgaPage;
+
+// File: \Github\My-Page\my-app\src\app\views\stlModels\page.tsx
+"use client";
+
+import React from 'react';
+import dynamic from 'next/dynamic';
+
+const DynamicStl = dynamic(() => import('@/app/components/StlViewer'), { ssr: false });
+
+const ModelsPage = () => {
+  return (
+    <div>
+      <h1>3D Models Page</h1>
+      <p>Welcome to the 3D Models page!</p>
+      <div id="root">
+          <DynamicStl />
+        </div>
+    </div>
+  );
+};
+
+export default ModelsPage;
+
+// File: C:\Github\My-Page\my-app\index.js
+teste
 
