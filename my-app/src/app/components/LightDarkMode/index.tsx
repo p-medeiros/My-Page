@@ -12,17 +12,23 @@ const LightDarkMode = () => {
   };
 
   return (
-    <div className="mode-switch-container">
-      <input id="switch" type="checkbox" checked={isDarkMode} onChange={handleToggle} />
-      <label htmlFor="switch" className="switch-label">
-        <div className="toggle"></div>
-        <div className="names">
-          <p className="light">Light</p>
-          <p className="dark">Dark</p>
+    <div className="app">
+      <div className="body">
+        <div className="phone">
+          <div className="content">
+            <div className="circle">
+              <div className="crescent"></div>
+            </div>
+            <label htmlFor="switch">
+              <input id="switch" type="checkbox" onChange={handleToggle} checked={isDarkMode} />
+              <div className="toggle"></div>
+              <div className="names">
+                <p className="light">Light</p>
+                <p className="dark">Dark</p>
+              </div>
+            </label>
+          </div>
         </div>
-      </label>
-      <div className="circle">
-        <div className="crescent"></div>
       </div>
     </div>
   );
