@@ -21,10 +21,8 @@
         "name": "next"
       }
     ],
-    "paths": {src/app/views/bots
-      "@/*": [
-        "./src/*"
-      ]
+    "paths": {
+      "@/*": ["./src/*"]
     }
   },
   "include": [
